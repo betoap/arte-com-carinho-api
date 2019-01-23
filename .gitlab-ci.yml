@@ -1,0 +1,59 @@
+image: docker:latest
+
+variables:
+    ENV: $CI_COMMIT_REF_NAME
+
+stages:
+  - build
+  - push
+  - deploy
+
+build:
+  only:
+    - master
+    - qa
+    - prd
+  stage: build
+  script:
+    - docker build -t edp-$ENV-api:latest .
+
+push:
+  only:
+    - master
+    - qa
+  stage: push
+  script:
+    - docker login -u $REG_USER -p $REG_PASS edpregdev.azurecr.io
+    - docker tag edp-$ENV-api edpregdev.azurecr.io/edp-$ENV-api:latest
+    - docker push edpregdev.azurecr.io/edp-$ENV-api:latest
+    
+pushprd:
+  only:
+    - prd
+  stage: push
+  script:
+    - docker login -u $REG_EDP_PRD_USER -p $REG_EDP_PRD_PASS frontend01.azurecr.io
+    - docker tag edp-$ENV-api frontend01.azurecr.io/edp-$ENV-api:latest
+    - docker push frontend01.azurecr.io/edp-$ENV-api:latest
+    
+deploy:
+  only:
+    - master
+  stage: deploy
+  when: manual
+  script:
+    - apk add ansible sshpass
+    - export ANSIBLE_HOST_KEY_CHECKING=False
+    - ansible --inventory=./inventory api$ENV --module-name=ping --extra-vars "ansible_password=$SSH_PASS"
+    - ansible --inventory=./inventory api$ENV --module-name=shell --args="docker login -u $REG_USER -p $REG_PASS edpregdev.azurecr.io && docker rm -f api-hml && docker pull edpregdev.azurecr.io/edp-$ENV-api &&  docker run --restart=always --name api-hml -d -e \"ACC_ENV=hml\" -p 80:4100 edpregdev.azurecr.io/edp-$ENV-api:latest" --sudo --extra-vars "ansible_password=$SSH_PASS"
+    
+deployacnqa:
+  only:
+    - qa
+  stage: deploy
+  script:
+    - apk add ansible sshpass
+    - export ANSIBLE_HOST_KEY_CHECKING=False
+    - ansible --inventory=./inventory api$ENV --module-name=ping --extra-vars "ansible_password=$SSH_PASS"
+    - ansible --inventory=./inventory api$ENV --module-name=shell --args="docker login -u $REG_USER -p $REG_PASS edpregdev.azurecr.io && docker rm -f api-$ENV && docker pull edpregdev.azurecr.io/edp-$ENV-api &&  docker run --restart=always --name api-$ENV -d -e \"ACC_ENV=$ENV\" -p 80:4100 edpregdev.azurecr.io/edp-$ENV-api:latest" --sudo --extra-vars "ansible_password=$SSH_PASS"
+

@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+const environment = process.env.NODE_ENV || 'dev';
+let config;
+
+switch(environment) {
+    case 'dev' :
+        config = { 
+            service: '',
+            transportMethod: '',
+            host: '',
+            port: '',
+            secure: true,
+            logger: '',
+            debug: '',
+            auth: {
+                user: '',
+                pass: ''
+            }
+        }
+    break;
+    case 'hml' :
+        config = { 
+            service: '',
+            transportMethod: '',
+            host: '',
+            port: '',
+            secure: true,
+            logger: '',
+            debug: '',
+            auth: {
+                user: '',
+                pass: ''
+            }
+        }
+    break;
+    case 'prd' :
+        config = { 
+            service: 'gmail',
+            secure: true,
+            transportMethod: '',
+            host: '',
+            port: '',
+            logger: '',
+            debug: '',
+            auth: {
+                user: '',
+                pass: ''
+            }
+        }
+    break;
+}
+
+module.exports = config;

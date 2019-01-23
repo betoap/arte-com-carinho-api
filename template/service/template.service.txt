@@ -1,0 +1,13 @@
+import { Service } from "./../../../<%= nivel %>core/service";
+import { <%= upname %>Filter } from './../filter/<%= name %>.filter';
+import { <%= upname %>, I<%= upname %> } from './../document/<%= upname %>.document';
+
+export class <%= upname %>Service extends Service {
+    
+    public document: I<%= upname %> = new <%= upname %>;
+
+    constructor() {
+        super( new <%= upname %>Filter );
+    }
+
+}

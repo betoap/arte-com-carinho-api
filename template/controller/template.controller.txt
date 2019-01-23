@@ -1,0 +1,8 @@
+import { Controller } from "./../../../<%= nivel %>core/controller";
+import { <%= upname %>Service } from "./../service/<%= name %>.service";
+
+export class <%= upname %>Controller extends Controller {
+    
+    protected service: <%= upname %>Service = new <%= upname %>Service;
+
+}

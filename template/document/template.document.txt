@@ -1,0 +1,35 @@
+import { ObjectId } from 'mongoose';
+import { DocumentBase } from './../../../<%= nivel %>core/document/index';
+
+export interface I<%= upname %> {
+    //TODO add properties
+}
+
+class <%= upname %>Document extends DocumentBase {
+    
+    constructor() {
+        super('<%= name %>');
+        this.schema = this.getSchema();
+    }
+
+    setData( data ) { }
+
+    getSchema() {
+        return { };
+    }
+}
+
+export class <%= upname %> extends <%= upname %>Document implements I<%= upname %> {
+    
+    constructor() {
+        super();
+    }
+
+    public setData( <%= name %>: I<%= upname %> ) {
+        //TODO implements properties
+        if ( <%= name %>.alterado_em ) this.alterado_em = <%= name %>.alterado_em;
+        if ( <%= name %>.removido_em ) this.removido_em = <%= name %>.removido_em;
+        return this;
+   }
+
+ }

@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+		"charset": "utf-8",
+		"module": "commonjs",
+		"outDir": "./build",
+		"rootDir": "./src",
+        "target": "es6",
+		"removeComments": true,
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "skipLibCheck": true,
+        "lib": ["dom", "es7"],
+        "typeRoots": [
+            "./node_modules/@types"
+        ],
+        "types": [
+            "node",
+            "express"
+        ]
+    },
+    "include": [
+        "./src/*.ts",
+        "./src/**/*.ts"
+    ],
+    "exclude": [
+        "./node_modules",
+        "./node_modules/**",
+    ]
+}

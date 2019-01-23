@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+"use strict";
+const environment = process.env.ACC_ENV || 'dev';
+
+let jwt = {};
+
+switch(environment) {
+    case 'dev' :
+        jwt = {
+            active: false,
+            key: 'SistemaDeSegurança',
+            moduleAccess: ['login', 'user'],
+            pageAccess: ['login', 'resetpassword'],
+            header: 'x-access-token',
+            expira: 120
+        };
+    break;
+    case 'hml' :
+        jwt = {
+            active: true,
+            key: '787fa7d75a62b4835e054d0647b03868',
+            moduleAccess: ['login', 'user'],
+            pageAccess: ['login', 'resetpassword'],
+            header: 'x-access-token',
+            expira: 120
+        };
+    break;
+    case 'prd' :
+        jwt = {
+            active: true,
+            key: '787fa7d75a62b4835e054d0647b03868',
+            moduleAccess: ['login', 'user'],
+            pageAccess: ['login', 'resetpassword'],
+            header: 'x-access-token',
+            expira: 120
+        };
+    break;
+}
+
+module.exports = jwt;

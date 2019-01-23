@@ -1,0 +1,14 @@
+import { Route } from "./../../../<%= nivel %>core/route";
+import { <%= upname %>Controller } from "./../controller/<%= name %>.controller";
+
+class <%= upname %>Route extends Route {
+    
+    protected controller: <%= upname %>Controller;
+
+    constructor() {
+        super();
+        this.controller  = new <%= upname %>Controller();
+    }
+}
+
+module.exports = new <%= upname %>Route().routers();

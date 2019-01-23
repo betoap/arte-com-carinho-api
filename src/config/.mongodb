@@ -1,0 +1,44 @@
+#!/usr/bin/env node
+"use strict";
+
+const environment = process.env.ACC_ENV || 'dev';
+let mongodb;
+
+switch(environment) {
+    case 'dev' :
+        mongodb = {
+            dialect: "mongodb",
+            user : "",
+            password : "",
+            host : "localhost",
+            port : 27017,
+            database : "edp_dev",
+            ssl: false
+        };
+    break;
+    case 'hml' :
+        mongodb = {
+            dialect: "mongodb",
+            user : "frontendqa",
+            password : "dIWEVRrprYUU1GKxonMl3hdhWJnt0nhl6CBkmIDTX858KZpvJ2a36srkn4x1yxNk6rXKGLWTRerxQQPXLrrtog==",
+            host : "frontendqa.documents.azure.com",
+            port : 10255,
+            database : "edp_hml",
+            ssl: true
+        };
+    break;
+    case 'prd' :
+        mongodb = {
+            dialect: "mongodb",
+            user : "frontendqa",
+            password : "dIWEVRrprYUU1GKxonMl3hdhWJnt0nhl6CBkmIDTX858KZpvJ2a36srkn4x1yxNk6rXKGLWTRerxQQPXLrrtog==",
+            host : "frontendqa.documents.azure.com",
+            port : 10255,
+            database : "edp_hml",
+            ssl: true
+        };
+    break;
+}
+
+module.exports = mongodb;
+
