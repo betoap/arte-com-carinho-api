@@ -100,7 +100,7 @@ export abstract class DocumentBase {
             .find( req, false )
             .then( data => {
                 data.forEach( item => {
-                    item.set( this );
+                    item.set( req.body.body );
                     this.save( item );
                 });
                 resolve( data );
@@ -127,6 +127,7 @@ export abstract class DocumentBase {
         const where = {};
         const params = {};
         for (let element in data) {
+            if( element === 'sleepApi' ) { continue; }
             const value = this.checkRegex(data[element]);
             if( element === 'skip' || element === 'limit') { 
                 params[element] = parseInt( data[element] );
